@@ -380,7 +380,7 @@ def make_tensor_proto(values, dtype=None, shape=None):
   # we flatten it conservatively.
   if numpy_dtype == types.string and not isinstance(values, np.ndarray):
     proto_values = _FlattenToStrings(values)
-    tensor_proto.string_val.extend([str(x) for x in proto_values])
+    tensor_proto.string_val.extend([bytes(x, 'utf-8') for x in proto_values])
     return tensor_proto
 
   # TensorFlow expects C order (a.k.a., eigen row major).

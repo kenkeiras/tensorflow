@@ -199,7 +199,7 @@ class Coordinator(object):
     with self._lock:
       if self._exc_info_to_raise:
         exc_info = self._exc_info_to_raise
-        raise exc_info[0], exc_info[1], exc_info[2]
+        raise (exc_info[0], exc_info[1], exc_info[2])
       elif stragglers:
         raise RuntimeError("Coordinator stopped with threads still running: %s",
                            " ".join(stragglers))

@@ -197,7 +197,7 @@ Status PyBytesArrayMap(PyArrayObject* array, F f) {
     // Accept unicode in Python 3, by converting to UTF-8 bytes.
     if (PyUnicode_Check(item.get())) {
       ptr = PyUnicode_AsUTF8AndSize(item.get(), &len);
-      if (!buf) {
+      if (!ptr) {
         return errors::Internal("Unable to get element from the feed.");
       }
     } else {
@@ -412,7 +412,16 @@ void TF_Run_wrapper(TF_Session* session, const FeedVector& inputs,
                     PyObjectVector* out_values) {
   // 0. Ensure that numpy has been imported.
   if (!numpy_imported) {
+    #define __TMP__ NUMPY_IMPORT_ARRAY_RETVAL
+    #undef NUMPY_IMPORT_ARRAY_RETVAL
+    #define NUMPY_IMPORT_ARRAY_RETVAL
+
     import_array();
+
+    #undef NUMPY_IMPORT_ARRAY_RETVAL
+    #define NUMPY_IMPORT_ARRAY_RETVAL
+    #undef __TMP__
+
     numpy_imported = true;
   }
 

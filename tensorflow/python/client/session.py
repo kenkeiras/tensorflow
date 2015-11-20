@@ -491,7 +491,7 @@ class BaseSession(SessionInterface):
         raise errors._make_specific_exception(node_def, op, error_message,
                                               e.code)
         # pylint: enable=protected-access
-      raise e_type, e_value, e_traceback
+      raise (e_type, e_value, e_traceback)
 
 
 class Session(BaseSession):

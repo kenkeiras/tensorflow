@@ -25,7 +25,10 @@ import logging
 import os
 import sys
 import time
-import thread
+try:
+  import thread
+except ImportError:
+  import _thread as thread
 from logging import DEBUG
 from logging import ERROR
 from logging import FATAL

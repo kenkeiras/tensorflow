@@ -223,6 +223,10 @@ class DType(object):
   def __repr__(self):
     return "tf." + self.name
 
+  def __hash__(self):
+    """Returns the hashcode"""
+    return self.name.__hash__()
+
 
 # Define standard wrappers for the types_pb2.DataType enum.
 float32 = DType(types_pb2.DT_FLOAT)

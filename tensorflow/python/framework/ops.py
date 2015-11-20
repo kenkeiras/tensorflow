@@ -396,7 +396,9 @@ class Tensor(object):
     if getattr(Tensor, operator, None) is not None:
       # check to see if this is a default method-wrapper which will be true
       # for the comparison operators.
-      if not isinstance(getattr(Tensor, operator, None), type(all.__call__)):
+      if not isinstance(getattr(Tensor, operator, None), type(all.__call__)) and \
+         not isinstance(getattr(Tensor, operator, None),
+                        type(getattr(object, operator, None))):
         raise ValueError("operator %s cannot be overwritten again." % operator)
     if operator not in Tensor.OVERLOADABLE_OPERATORS:
       raise ValueError("Overriding %s is disallowed" % operator)

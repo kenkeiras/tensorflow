@@ -21,6 +21,7 @@ from __future__ import print_function
 
 import numbers
 import six
+import sys
 
 from tensorflow.core.framework import attr_value_pb2
 from tensorflow.core.framework import op_def_pb2
@@ -155,10 +156,13 @@ def _MakeInt(v, arg_name):
 
 
 def _MakeStr(v, arg_name):
+  if sys.version_info[0] == 3 and isinstance(v, six.binary_type):
+    return bytes(v)
   if not isinstance(v, six.string_types):
     raise TypeError("Expected string for argument '%s' not %s." %
                     (arg_name, repr(v)))
-  # TODO(irving): Figure out what to do here from Python 3
+  if sys.version_info[0] == 3:
+    return bytes(v, 'utf-8')
   return str(v)  # Convert unicode strings to bytes.
 
 

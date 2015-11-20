@@ -699,7 +699,7 @@ tf_cuda_library(
     name = "tf_session_helper",
     srcs = ["client/tf_session_helper.cc"],
     hdrs = ["client/tf_session_helper.h"],
-    copts = numpy_macosx_include_dir + ["-I/usr/include/python2.7"],
+    copts = numpy_macosx_include_dir + ["-I/usr/include/python3.4"],
     deps = [
         ":construction_fails_op",
         ":test_kernel_label_op_kernel",

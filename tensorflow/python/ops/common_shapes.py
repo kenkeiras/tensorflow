@@ -18,6 +18,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import sys
+
 from tensorflow.python.framework import tensor_shape
 
 
@@ -113,6 +115,9 @@ def get2d_conv_output_size(input_height, input_width, filter_height,
   filter_width = tensor_shape.as_dimension(filter_width)
   row_stride = int(row_stride)
   col_stride = int(col_stride)
+
+  if sys.version_info[0] == 3:
+    padding_type = padding_type.decode()
 
   if filter_height.value == 1 and filter_width.value == 1 and (
       row_stride == 1 and col_stride == 1):

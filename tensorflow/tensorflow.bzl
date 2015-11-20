@@ -302,7 +302,7 @@ def tf_py_wrap_cc(name, srcs, swig_includes=[], deps=[], copts=[], **kwargs):
       name=cc_library_name,
       srcs=[module_name + ".cc"],
       copts=copts + ["-Wno-self-assign", "-Wno-write-strings"
-                    ] + ["-I/usr/include/python2.7"],
+                    ] + ["-I/usr/include/python3.4"],
       linkopts=tf_extension_linkopts(),
       linkstatic=1,
       linkshared=1,
