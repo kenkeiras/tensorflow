@@ -30,9 +30,16 @@
   if ($input != Py_None) {
     char * buf;
     Py_ssize_t len;
-    if (PyBytes_AsStringAndSize($input, &buf, &len) == -1) {
-      // Python has raised an error (likely TypeError or UnicodeEncodeError).
-      SWIG_fail;
+    if (PyUnicode_Check($input)) {
+      if ((buf = PyUnicode_AsUTF8AndSize($input, &len)) == NULL) {
+        // Python has raised an error (likely TypeError).
+        SWIG_fail;
+      }
+    } else {
+      if (PyBytes_AsStringAndSize($input, &buf, &len) == -1){
+        // Python has raised an error (likely TypeError).
+        SWIG_fail;
+      }
     }
     $1.set(buf, len);
   }
@@ -44,9 +51,16 @@
   if ($input != Py_None) {
     char * buf;
     Py_ssize_t len;
-    if (PyBytes_AsStringAndSize($input, &buf, &len) == -1) {
-      // Python has raised an error (likely TypeError).
-      SWIG_fail;
+    if (PyUnicode_Check($input)) {
+      if ((buf = PyUnicode_AsUTF8AndSize($input, &len)) == NULL) {
+        // Python has raised an error (likely TypeError).
+        SWIG_fail;
+      }
+    } else {
+      if (PyBytes_AsStringAndSize($input, &buf, &len) == -1){
+        // Python has raised an error (likely TypeError).
+        SWIG_fail;
+      }
     }
     temp.set(buf, len);
   }
@@ -57,7 +71,7 @@
 // or None if the StringPiece contained a NULL pointer.
 %typemap(out) tensorflow::StringPiece {
   if ($1.data()) {
-    $result = PyBytes_FromStringAndSize($1.data(), $1.size());
+    $result = PyUnicode_FromUTF8AndSize($1.data(), $1.size());
   } else {
     Py_INCREF(Py_None);
     $result = Py_None;

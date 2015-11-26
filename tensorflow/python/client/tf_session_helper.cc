@@ -278,7 +278,13 @@ static Status CopyStringToPyArrayElement(PyArrayObject* pyarray, void* i_ptr,
   tensorflow::uint64 len;
   TF_RETURN_IF_ERROR(
       TF_StringTensor_GetPtrAndLen(tensor, num_elements, i, &ptr, &len));
-  auto py_string = tensorflow::make_safe(PyBytes_FromStringAndSize(ptr, len));
+
+  auto str = PyUnicode_FromStringAndSize(ptr, len);
+  if (str == NULL){
+    str = PyBytes_FromStringAndSize(ptr, len);
+  }
+
+  auto py_string = tensorflow::make_safe(str);
   int success =
       PyArray_SETITEM(pyarray, PyArray_ITER_DATA(i_ptr), py_string.get());
   if (success != 0) {

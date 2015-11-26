@@ -98,7 +98,7 @@ class SummaryWriter(object):
       gfile.MakeDirs(self._logdir)
     self._event_queue = Queue.Queue(max_queue)
     self._ev_writer = pywrap_tensorflow.EventsWriter(
-        os.path.join(self._logdir.encode('utf-8'), b"events"))
+        os.path.join(self._logdir, "events"))
     self._worker = _EventLoggerThread(self._event_queue, self._ev_writer,
                                       flush_secs)
     self._worker.start()
